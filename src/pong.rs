@@ -10,7 +10,7 @@ use amethyst::{
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
 use systems::ScoreText;
-use {Ball, Paddle, Side};
+use {Ball, Paddle};
 use {ARENA_HEIGHT, ARENA_WIDTH};
 
 pub struct Pong;
@@ -20,12 +20,8 @@ impl<'a, 'b> SimpleState<'a, 'b> for Pong {
         let StateData { world, .. } = data;
         use audio::initialise_audio;
 
-        // Load the spritesheet necessary to render the graphics.
-        // `spritesheet` is the layout of the sprites on the image;
-        // `texture` is the pixel data.
         let sprite_sheet_handle = load_sprite_sheet(world);
 
-        // Setup our game.
         initialise_paddles(world, sprite_sheet_handle.clone());
         initialise_ball(world, sprite_sheet_handle);
         initialise_camera(world);
@@ -82,12 +78,10 @@ fn initialise_paddles(world: &mut World, sprite_sheet_handle: SpriteSheetHandle)
     use {PADDLE_HEIGHT, PADDLE_VELOCITY, PADDLE_WIDTH};
 
     let mut left_transform = Transform::default();
-    let mut right_transform = Transform::default();
 
     // Correctly position the paddles.
     let y = (ARENA_HEIGHT - PADDLE_HEIGHT) / 2.0;
     left_transform.set_xyz(PADDLE_WIDTH * 0.5, y, 0.0);
-    right_transform.set_xyz(ARENA_WIDTH - PADDLE_WIDTH * 0.5, y, 0.0);
 
     // Assign the sprites for the paddles
     let sprite_render_left = SpriteRender {
@@ -97,35 +91,15 @@ fn initialise_paddles(world: &mut World, sprite_sheet_handle: SpriteSheetHandle)
         flip_vertical: false,
     };
 
-    let sprite_render_right = SpriteRender {
-        sprite_sheet: sprite_sheet_handle,
-        sprite_number: 0,
-        flip_horizontal: true,
-        flip_vertical: false,
-    };
-
     // Create a left plank entity.
     world
         .create_entity()
         .with(sprite_render_left)
         .with(Paddle {
-            side: Side::Left,
             width: PADDLE_WIDTH,
             height: PADDLE_HEIGHT,
             velocity: PADDLE_VELOCITY,
         }).with(left_transform)
-        .build();
-
-    // Create right plank entity.
-    world
-        .create_entity()
-        .with(sprite_render_right)
-        .with(Paddle {
-            side: Side::Right,
-            width: PADDLE_WIDTH,
-            height: PADDLE_HEIGHT,
-            velocity: PADDLE_VELOCITY,
-        }).with(right_transform)
         .build();
 }
 

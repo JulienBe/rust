@@ -6,7 +6,7 @@ use amethyst::{
 };
 use audio::{play_bounce, Sounds};
 use std::ops::Deref;
-use {Ball, Paddle, Side};
+use {Ball, Paddle};
 
 /// This system is responsible for detecting collisions between balls and
 /// paddles, as well as balls and the top and bottom edges of the arena.
@@ -63,13 +63,13 @@ impl<'s> System<'s> for BounceSystem {
                     paddle_x + paddle.width + ball.radius,
                     paddle_y + paddle.height + ball.radius,
                 ) {
-                    if paddle.side == Side::Left && ball.velocity[0] < 0.0 {
-                        ball.velocity[0] = -ball.velocity[0];
-                        play_bounce(&*sounds, &storage, audio_output.as_ref().map(|o| o.deref()));
-                    } else if paddle.side == Side::Right && ball.velocity[0] > 0.0 {
-                        ball.velocity[0] = -ball.velocity[0];
-                        play_bounce(&*sounds, &storage, audio_output.as_ref().map(|o| o.deref()));
-                    }
+//                    if paddle.side == Side::Left && ball.velocity[0] < 0.0 {
+//                        ball.velocity[0] = -ball.velocity[0];
+//                        play_bounce(&*sounds, &storage, audio_output.as_ref().map(|o| o.deref()));
+//                    } else if paddle.side == Side::Right && ball.velocity[0] > 0.0 {
+//                        ball.velocity[0] = -ball.velocity[0];
+//                        play_bounce(&*sounds, &storage, audio_output.as_ref().map(|o| o.deref()));
+//                    }
                 }
             }
         }

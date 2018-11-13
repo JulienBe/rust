@@ -1,10 +1,6 @@
 (
     axes: {
-        "left_paddle": Emulated(
-            pos: Key(W),
-            neg: Key(S),
-        ),
-        "right_paddle": Emulated(
+        "player_control": Emulated(
             pos: Key(Up),
             neg: Key(Down),
         ),

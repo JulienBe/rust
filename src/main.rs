@@ -1,5 +1,3 @@
-//! TODO: Rewrite for new renderer.
-
 extern crate amethyst;
 
 mod audio;
@@ -92,24 +90,16 @@ impl Component for Ball {
     type Storage = DenseVecStorage<Self>;
 }
 
-#[derive(PartialEq, Eq)]
-pub enum Side {
-    Left,
-    Right,
-}
-
 pub struct Paddle {
     pub velocity: f32,
-    pub side: Side,
     pub width: f32,
     pub height: f32,
 }
 
 impl Paddle {
-    pub fn new(side: Side) -> Paddle {
+    pub fn new() -> Paddle {
         Paddle {
             velocity: 1.0,
-            side: side,
             width: 1.0,
             height: 1.0,
         }
