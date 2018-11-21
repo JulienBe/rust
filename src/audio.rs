@@ -1,6 +1,6 @@
 use amethyst::{
-    assets::{AssetStorage, Loader},
-    audio::{output::Output, AudioSink, OggFormat, Source, SourceHandle},
+    assets::Loader,
+    audio::{AudioSink, OggFormat, SourceHandle},
     ecs::prelude::World,
 };
 use std::iter::Cycle;
@@ -51,13 +51,4 @@ pub fn initialise_audio(world: &mut World) {
     // world won't let us insert new resources as long as `Loader` is borrowed.
     world.add_resource(sound_effects);
     world.add_resource(music);
-}
-
-/// Plays the bounce sound when a ball hits a side or a paddle.
-pub fn play_bounce(sounds: &Sounds, storage: &AssetStorage<Source>, output: Option<&Output>) {
-    if let Some(ref output) = output.as_ref() {
-        if let Some(sound) = storage.get(&sounds.bounce_sfx) {
-            output.play_once(sound, 1.0);
-        }
-    }
 }

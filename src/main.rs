@@ -22,13 +22,9 @@ use std::time::Duration;
 
 const ARENA_HEIGHT: f32 = 100.0;
 const ARENA_WIDTH: f32 = 100.0;
-const PADDLE_HEIGHT: f32 = 16.0;
-const PADDLE_WIDTH: f32 = 4.0;
+const PADDLE_HEIGHT: f32 = 1.0;
+const PADDLE_WIDTH: f32 = 1.0;
 const PADDLE_VELOCITY: f32 = 75.0;
-
-const BALL_VELOCITY_X: f32 = 75.0;
-const BALL_VELOCITY_Y: f32 = 50.0;
-const BALL_RADIUS: f32 = 2.0;
 
 const AUDIO_MUSIC: &'static [&'static str] = &[
     "audio/Computer_Music_All-Stars_-_Wheres_My_Jetpack.ogg",
@@ -69,7 +65,7 @@ fn main() -> amethyst::Result<()> {
             InputBundle::<String, String>::new().with_bindings_from_file(&key_bindings_path)?,
         )?.with_bundle(PongBundle)?
         .with_bundle(RenderBundle::new(pipe, Some(config)).with_sprite_sheet_processor())?
-        .with_bundle(TransformBundle::new().with_dep(&["ball_system", "paddle_system"]))?
+        .with_bundle(TransformBundle::new().with_dep(&["paddle_system"]))?
         .with_bundle(AudioBundle::new(|music: &mut Music| music.music.next()))?
         .with_bundle(UiBundle::<String, String>::new())?;
     let mut game = Application::build(assets_dir, Pong)?
@@ -79,15 +75,6 @@ fn main() -> amethyst::Result<()> {
         ).build(game_data)?;
     game.run();
     Ok(())
-}
-
-pub struct Ball {
-    pub velocity: [f32; 2],
-    pub radius: f32,
-}
-
-impl Component for Ball {
-    type Storage = DenseVecStorage<Self>;
 }
 
 pub struct Paddle {
@@ -108,19 +95,4 @@ impl Paddle {
 
 impl Component for Paddle {
     type Storage = DenseVecStorage<Self>;
-}
-
-#[derive(Default)]
-pub struct ScoreBoard {
-    score_left: i32,
-    score_right: i32,
-}
-
-impl ScoreBoard {
-    pub fn new() -> ScoreBoard {
-        ScoreBoard {
-            score_left: 0,
-            score_right: 0,
-        }
-    }
 }
